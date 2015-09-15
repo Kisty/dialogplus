@@ -31,6 +31,7 @@ public class MainActivity extends ActionBarActivity {
   private CheckBox headerCheckBox;
   private CheckBox footerCheckBox;
   private CheckBox expandedCheckBox;
+  private CheckBox contentWrappedCheckBox;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class MainActivity extends ActionBarActivity {
     headerCheckBox = (CheckBox) findViewById(R.id.header_check_box);
     footerCheckBox = (CheckBox) findViewById(R.id.footer_check_box);
     expandedCheckBox = (CheckBox) findViewById(R.id.expanded_check_box);
+    contentWrappedCheckBox = (CheckBox) findViewById(R.id.wrap_content_check_box);
 
     findViewById(R.id.button_bottom).setOnClickListener(new View.OnClickListener() {
       @Override
@@ -55,8 +57,8 @@ public class MainActivity extends ActionBarActivity {
             Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
             headerCheckBox.isChecked(),
             footerCheckBox.isChecked(),
-            expandedCheckBox.isChecked()
-        );
+            expandedCheckBox.isChecked(),
+            contentWrappedCheckBox.isChecked());
       }
     });
 
@@ -68,8 +70,8 @@ public class MainActivity extends ActionBarActivity {
             Gravity.CENTER,
             headerCheckBox.isChecked(),
             footerCheckBox.isChecked(),
-            expandedCheckBox.isChecked()
-        );
+            expandedCheckBox.isChecked(),
+            contentWrappedCheckBox.isChecked());
       }
     });
 
@@ -81,8 +83,8 @@ public class MainActivity extends ActionBarActivity {
             Gravity.TOP | Gravity.CENTER_HORIZONTAL,
             headerCheckBox.isChecked(),
             footerCheckBox.isChecked(),
-            expandedCheckBox.isChecked()
-        );
+            expandedCheckBox.isChecked(),
+            contentWrappedCheckBox.isChecked());
       }
     });
 
@@ -114,7 +116,7 @@ public class MainActivity extends ActionBarActivity {
     dialogPlus.show();
   }
 
-  private void showDialog(int holderId, int gravity, boolean showHeader, boolean showFooter, boolean expanded) {
+  private void showDialog(int holderId, int gravity, boolean showHeader, boolean showFooter, boolean expanded, boolean wrapContentWidth) {
     boolean isGrid;
     Holder holder;
     switch (holderId) {
@@ -182,29 +184,29 @@ public class MainActivity extends ActionBarActivity {
     SimpleAdapter adapter = new SimpleAdapter(MainActivity.this, isGrid);
     if (showHeader && showFooter) {
       showCompleteDialog(holder, gravity, adapter, clickListener, itemClickListener, dismissListener, cancelListener,
-          expanded);
+          expanded, wrapContentWidth);
       return;
     }
 
     if (showHeader && !showFooter) {
       showNoFooterDialog(holder, gravity, adapter, clickListener, itemClickListener, dismissListener, cancelListener,
-          expanded);
+          expanded, wrapContentWidth);
       return;
     }
 
     if (!showHeader && showFooter) {
       showNoHeaderDialog(holder, gravity, adapter, clickListener, itemClickListener, dismissListener, cancelListener,
-          expanded);
+          expanded, wrapContentWidth);
       return;
     }
 
-    showOnlyContentDialog(holder, gravity, adapter, itemClickListener, dismissListener, cancelListener, expanded);
+    showOnlyContentDialog(holder, gravity, adapter, itemClickListener, dismissListener, cancelListener, expanded, wrapContentWidth);
   }
 
   private void showCompleteDialog(Holder holder, int gravity, BaseAdapter adapter,
                                   OnClickListener clickListener, OnItemClickListener itemClickListener,
                                   OnDismissListener dismissListener, OnCancelListener cancelListener,
-                                  boolean expanded) {
+                                  boolean expanded, boolean wrapContentWidth) {
     final DialogPlus dialog = DialogPlus.newDialog(this)
         .setContentHolder(holder)
         .setHeader(R.layout.header)
@@ -216,7 +218,7 @@ public class MainActivity extends ActionBarActivity {
         .setOnItemClickListener(itemClickListener)
         .setOnDismissListener(dismissListener)
         .setExpanded(expanded)
-        .setContentWidth(800)
+        .setWrapContentWidth(wrapContentWidth)
         .setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
         .setOnCancelListener(cancelListener)
             //                .setOutMostMargin(0, 100, 0, 0)
@@ -227,7 +229,7 @@ public class MainActivity extends ActionBarActivity {
   private void showNoFooterDialog(Holder holder, int gravity, BaseAdapter adapter,
                                   OnClickListener clickListener, OnItemClickListener itemClickListener,
                                   OnDismissListener dismissListener, OnCancelListener cancelListener,
-                                  boolean expanded) {
+                                  boolean expanded, boolean wrapContentWidth) {
     final DialogPlus dialog = DialogPlus.newDialog(this)
         .setContentHolder(holder)
         .setHeader(R.layout.header)
@@ -238,6 +240,7 @@ public class MainActivity extends ActionBarActivity {
         .setOnItemClickListener(itemClickListener)
         .setOnDismissListener(dismissListener)
         .setOnCancelListener(cancelListener)
+        .setWrapContentWidth(wrapContentWidth)
         .setExpanded(expanded)
         .create();
     dialog.show();
@@ -246,7 +249,7 @@ public class MainActivity extends ActionBarActivity {
   private void showNoHeaderDialog(Holder holder, int gravity, BaseAdapter adapter,
                                   OnClickListener clickListener, OnItemClickListener itemClickListener,
                                   OnDismissListener dismissListener, OnCancelListener cancelListener,
-                                  boolean expanded) {
+                                  boolean expanded, boolean wrapContentWidth) {
     final DialogPlus dialog = DialogPlus.newDialog(this)
         .setContentHolder(holder)
         .setFooter(R.layout.footer)
@@ -257,6 +260,7 @@ public class MainActivity extends ActionBarActivity {
         .setOnItemClickListener(itemClickListener)
         .setOnDismissListener(dismissListener)
         .setOnCancelListener(cancelListener)
+        .setWrapContentWidth(wrapContentWidth)
         .setExpanded(expanded)
         .create();
     dialog.show();
@@ -264,7 +268,7 @@ public class MainActivity extends ActionBarActivity {
 
   private void showOnlyContentDialog(Holder holder, int gravity, BaseAdapter adapter,
                                      OnItemClickListener itemClickListener, OnDismissListener dismissListener,
-                                     OnCancelListener cancelListener, boolean expanded) {
+                                     OnCancelListener cancelListener, boolean expanded, boolean wrapContentWidth) {
     final DialogPlus dialog = DialogPlus.newDialog(this)
         .setContentHolder(holder)
         .setGravity(gravity)
@@ -272,6 +276,7 @@ public class MainActivity extends ActionBarActivity {
         .setOnItemClickListener(itemClickListener)
         .setOnDismissListener(dismissListener)
         .setOnCancelListener(cancelListener)
+        .setWrapContentWidth(wrapContentWidth)
         .setExpanded(expanded)
         .setCancelable(true)
         .create();
