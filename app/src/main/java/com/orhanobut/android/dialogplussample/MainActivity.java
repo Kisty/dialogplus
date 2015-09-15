@@ -52,7 +52,7 @@ public class MainActivity extends ActionBarActivity {
       public void onClick(View v) {
         showDialog(
             radioGroup.getCheckedRadioButtonId(),
-            Gravity.BOTTOM,
+            Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
             headerCheckBox.isChecked(),
             footerCheckBox.isChecked(),
             expandedCheckBox.isChecked()
@@ -78,7 +78,7 @@ public class MainActivity extends ActionBarActivity {
       public void onClick(View v) {
         showDialog(
             radioGroup.getCheckedRadioButtonId(),
-            Gravity.TOP,
+            Gravity.TOP | Gravity.CENTER_HORIZONTAL,
             headerCheckBox.isChecked(),
             footerCheckBox.isChecked(),
             expandedCheckBox.isChecked()
