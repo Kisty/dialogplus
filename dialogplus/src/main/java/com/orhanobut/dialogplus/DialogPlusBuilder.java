@@ -37,6 +37,7 @@ public class DialogPlusBuilder {
   private OnDismissListener onDismissListener;
   private OnCancelListener onCancelListener;
   private OnBackPressListener onBackPressListener;
+  private boolean matchWidth = false;
 
   private boolean isCancelable = true;
   private int backgroundColorResourceId = INVALID;
@@ -254,6 +255,13 @@ public class DialogPlusBuilder {
 
   public DialogPlusBuilder setContentWidth(int width) {
     params.width = width;
+    return this;
+  }
+
+  public DialogPlusBuilder setWrapContentWidth(boolean wrapContentWidth) {
+    if (wrapContentWidth) {
+      setContentWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
     return this;
   }
 
